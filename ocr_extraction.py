@@ -7,9 +7,9 @@ import g4f.Provider
 #poppler path (required for pdf2image)
 poppler_path = r'C:\poppler-24.08.0\Library\bin'
 #use g4f.Provider.Blackbox , g4f.Provider.PollinationsAI	
-provider = g4f.Provider.Blackbox 
+input_provider = g4f.Provider.Blackbox 
 #gpt-4o, gpt-4o-mini, gpt-4 (crosscheck with the provider)
-model = "gpt-4o"
+input_model= "gpt-4o"
 
 
 
@@ -34,7 +34,7 @@ def chat_completion(prompt : str, image_file : str, max_retries=5) -> str:
     """
     Calls the LLM via g4f with a system prompt for OCR and retries on rate limits.
     """
-    client = g4f.Client(provider=provider)
+    client = g4f.Client(provider=input_provider)
     
     system_prompt = (
         "You are an OCR engine. Extract all text from the provided image as accurately as possible. "
@@ -46,7 +46,7 @@ def chat_completion(prompt : str, image_file : str, max_retries=5) -> str:
         try:
             with open(image_file, "rb") as img_file:
                 images = [[img_file, os.path.basename(image_file)]]
-                model = model
+                model = input_model
                 messages = [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
@@ -97,6 +97,6 @@ def ocr_extraction(file_list : list[str], prompt="Extract text from image") -> s
     return full_text
 
 if __name__ == "__main__":
-    files = ["English_Core.pdf"]
+    files = ["Mathematics_rotated.pdf"]
     result = ocr_extraction(files)
     print("Extracted Text:\n", result)

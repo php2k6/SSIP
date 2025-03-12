@@ -1,7 +1,11 @@
 import g4f
 import g4f.Provider
 import time
-
+#PARAMETERS
+#use g4f.Provider.Blackbox , g4f.Provider.PollinationsAI	
+input_provider = g4f.Provider.Blackbox	
+#gpt-4o, gpt-4o-mini, gpt-4 (crosscheck with the provider)
+input_model = "gpt-4o"
 def clean_text(ocr_text: str = None , question_paper_text: str =None , mode="answer_sheet", max_retries : int = 5) -> str:
     """
     Cleans and formats text based on provided instructions.
@@ -15,8 +19,8 @@ def clean_text(ocr_text: str = None , question_paper_text: str =None , mode="ans
     Returns:
     - cleaned_text (str): The processed and formatted text.
     """
-    client = g4f.Client(provider=g4f.Provider.PollinationsAI)
-    model = "gpt-4o"
+    client = g4f.Client(provider=input_provider)
+    model = input_model
 
     # Ensure required parameters are provided based on the mode
     if mode == "answer_sheet":
