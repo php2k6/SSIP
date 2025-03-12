@@ -3,8 +3,15 @@ import time
 from pdf2image import convert_from_path  # Install via: pip install pdf2image
 import g4f
 import g4f.Provider
-
+#PARAMETERS
+#poppler path (required for pdf2image)
 poppler_path = r'C:\poppler-24.08.0\Library\bin'
+#use g4f.Provider.Blackbox , g4f.Provider.PollinationsAI	
+provider = g4f.Provider.Blackbox 
+#gpt-4o, gpt-4o-mini, gpt-4 (crosscheck with the provider)
+model = "gpt-4o"
+
+
 
 def convert_pdf_to_images(pdf_path):
     """
@@ -27,7 +34,7 @@ def chat_completion(prompt, image_file, max_retries=5):
     """
     Calls the LLM via g4f with a system prompt for OCR and retries on rate limits.
     """
-    client = g4f.Client(provider=g4f.Provider.PollinationsAI)
+    client = g4f.Client(provider=provider)
     
     system_prompt = (
         "You are an OCR engine. Extract all text from the provided image as accurately as possible. "
@@ -39,7 +46,7 @@ def chat_completion(prompt, image_file, max_retries=5):
         try:
             with open(image_file, "rb") as img_file:
                 images = [[img_file, os.path.basename(image_file)]]
-                model = "gpt-4o"
+                model = model
                 messages = [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
