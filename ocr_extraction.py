@@ -38,7 +38,7 @@ def chat_completion(prompt : str, image_file : str, max_retries=5) -> str:
     
     system_prompt = (
         "You are an OCR engine. Extract all text from the provided image as accurately as possible. "
-        "Do not include any additional commentary."
+        "Do not include any additional commentary or text (only ocr)."
     )
 
     retries = 0
@@ -97,6 +97,6 @@ def ocr_extraction(file_list : list[str], prompt="Extract text from image") -> s
     return full_text
 
 if __name__ == "__main__":
-    files = ["Mathematics_rotated.pdf"]
+    files = [""]
     result = ocr_extraction(files)
     print("Extracted Text:\n", result)
