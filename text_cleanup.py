@@ -5,7 +5,7 @@ import time
 #use g4f.Provider.Blackbox , g4f.Provider.PollinationsAI	
 input_provider = g4f.Provider.Blackbox	
 #gpt-4o, gpt-4o-mini, gpt-4 (crosscheck with the provider)
-input_model = "gpt-4o"
+input_model = "deepseek-v3"
 def clean_text(ocr_text: str = None , question_paper_text: str =None , mode="answer_sheet", max_retries : int = 5) -> str:
     """
     Cleans and formats text based on provided instructions.
@@ -32,12 +32,17 @@ def clean_text(ocr_text: str = None , question_paper_text: str =None , mode="ans
         system_prompt = (
             "You are an assistant that cleans and structures OCR-extracted answer sheets. Follow these rules:\n"
             "- Do not merge two different answers.\n"
-            "- Leave exactly one blank line after each question but no extra lines for sub-questions.\n"
+            "- Leave exactly one blank line after each question but *no* extra lines for sub-questions.\n"
             "- Remove any markdown formatting like *bold* or _italic_.\n"
             "- Use the question paper to match answers correctly, ensuring numbering is accurate.\n"
             "- Be very careful with formulas, equations, and tables to keep formatting correct.\n"
             "- Add number markers if none are available by checking question and answer.\n"
-            "- Include only the answers in the output."
+            "- Include question/answer pairs in the output.\n"
+            "-*Do not include any additional commentary or text (only clean text)*.\n"
+            "-for subquestions - group them into one entire answer\n"
+            "if number are missing use qnpaper to give it a number by checking ans context and qn context\n"
+            "-dont get confused with subquestion or OR questions. for that look into qn paper first then answer sheet\n"
+            "-include mcqs also "
         )
 
         user_prompt = (
@@ -54,7 +59,12 @@ def clean_text(ocr_text: str = None , question_paper_text: str =None , mode="ans
             "You are an assistant that extracts only the questions and marks from a given question paper.\n"
             "- Remove all instructions, headings, and unnecessary text.\n"
             "- Keep only question numbers, question text, and the marks assigned to each question.\n"
-            "- Ensure formatting is clean and structured."
+            "- Ensure formatting is clean and structured.\n"
+            "-Do not include any additional commentary or text (only clean text)\n"
+            "-Remove any formatting like *bold* or _italic_. \n"
+            "- Be very careful with formulas, equations, and tables to keep formatting correct.\n"
+            "-include mcqs also, append marks at the end of qn in brackets (marks-)\n"
+            "-include all QUESTIONS DONT FORGET any. carefull with subquestions"
         )
 
         user_prompt = f"Extract and clean the questions and marks from the following:\n\n{question_paper_text}"
