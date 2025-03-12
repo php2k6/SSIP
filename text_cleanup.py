@@ -2,7 +2,7 @@ import g4f
 import g4f.Provider
 import time
 
-def clean_text(ocr_text=None, question_paper_text=None, mode="answer_sheet", max_retries=5):
+def clean_text(ocr_text: str = None , question_paper_text: str =None , mode="answer_sheet", max_retries : int = 5) -> str:
     """
     Cleans and formats text based on provided instructions.
     

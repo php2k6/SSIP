@@ -13,7 +13,7 @@ model = "gpt-4o"
 
 
 
-def convert_pdf_to_images(pdf_path):
+def convert_pdf_to_images(pdf_path : str) -> list[str]:
     """
     Converts a PDF file into a list of JPEG image file paths.
     Temporary image files are created in the current directory.
@@ -30,7 +30,7 @@ def convert_pdf_to_images(pdf_path):
         print(f"Error converting PDF {pdf_path}: {e}")
         return []
 
-def chat_completion(prompt, image_file, max_retries=5):
+def chat_completion(prompt : str, image_file : str, max_retries=5) -> str:
     """
     Calls the LLM via g4f with a system prompt for OCR and retries on rate limits.
     """
@@ -65,7 +65,7 @@ def chat_completion(prompt, image_file, max_retries=5):
 
     raise Exception("Failed after multiple retries due to rate limits.")
 
-def ocr_extraction(file_list, prompt="Extract text from image"):
+def ocr_extraction(file_list : list[str], prompt="Extract text from image") -> str:
     """
     For a list of file paths (images or PDFs), this function extracts text using LLM OCR.
     Returns the concatenated extracted text.

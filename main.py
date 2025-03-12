@@ -3,6 +3,7 @@ from text_cleanup import clean_text
 
 def main():
     # Extract and clean the question paper
+    print(ocr_extraction(["Mathematics_rotated.pdf"]))
     print("Extracting OCR text from qn_paper.pdf (questions)...")
     raw_question_paper_text = ocr_extraction(["example_qn_paper.pdf"])
     cleaned_question_paper = clean_text(question_paper_text=raw_question_paper_text, mode="question_paper")  
