@@ -5,8 +5,10 @@ from ocr_extraction import ocr_extraction
 from text_cleanup import clean_text
 client = Client()
 #PARAMETERS
-test_provider = g4f.Provider.Yqcloud
-test_model = "gpt-4"
+#use g4f.Provider.Blackbox , g4f.Provider.PollinationsAI	
+test_provider = g4f.Provider.PollinationsAI	
+#gpt-4o, gpt-4o-mini, gpt-4 (crosscheck with the provider)
+test_model = "gpt-4o"
 test_prompt = "hello"
 
 response = client.chat.completions.create(
